@@ -69,5 +69,30 @@ nx.draw(G,pos, with_labels=True)
 #Imprime rota mais curta conforme os parâmetros do nx.shortest_path(GRAFO UTILIZADO, LOCALIZAÇÃO ATUAL, DESTINO, PARÂMETRO PARA CÁLCULO)
 print(nx.shortest_path(G,source="ESC1",target="DESC3", weight='length'))
 
+""" status_truck = True
+if status_truck == True:
+    descargas = ["DESC1", "DESC2", "DESC3"]
+    valormenor=[]
+    valormenor.append(nx.shortest_path_length(G,source="ESC1",target="DESC1", weight='length'))
+    valormenor.append(nx.shortest_path_length(G,source="ESC1",target="DESC2", weight='length'))
+    valormenor.append(nx.shortest_path_length(G,source="ESC1",target="DESC3", weight='length'))
+    
+    tmp = min(valormenor)
+    index = valormenor.index(tmp)
+
+    print(nx.shortest_path(G,source="ESC3",target=descargas[index], weight='length'))
+
+else:
+    cargas = ["ESC1", "ESC2", "ESC3"]
+    valormenor=[]
+    valormenor.append(nx.shortest_path_length(G,source="DESC1",target="ESC1", weight='length'))
+    valormenor.append(nx.shortest_path_length(G,source="DESC1",target="ESC2", weight='length'))
+    valormenor.append(nx.shortest_path_length(G,source="DESC1",target="ESC3", weight='length'))
+    
+    tmp = min(valormenor)
+    index = valormenor.index(tmp)
+
+    print(nx.shortest_path(G,source="DESC3",target=cargas[index], weight='length')) """
+
 #Gera mapa do Grafo
 plt.show()
