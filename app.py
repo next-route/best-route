@@ -3,13 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 import json
 
+from networkx.algorithms.operators.binary import disjoint_union
+import dijkstra as dk
+
 from sqlalchemy.orm import exc
 
 # Inicializa o Flask
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # Modificar "host", "senha" e "0000" pelas informações correspondentes no seu mysql
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://host:senha@localhost:0000/melhor_rota'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost:3306/melhor_rota'
 
 # Conecta o Flask ao db(database) através da instância SLQAlchemy
 db = SQLAlchemy(app)
@@ -57,8 +60,22 @@ def generate_response(status, content_name, content, message=False):
 def get_truck(id):
     truck_object = Truck.query.filter_by(id=id).first()
     truck_json = truck_object.to_json()
+    
 
     return generate_response(200, "truck", truck_json)
+
+# Seleciona apenas um path para truck pelo seu id
+# Returns info about the path for the truck id
+
+@app.route("/path/<id>", methods=['GET'])
+def get_path(id):
+    truck_object = Truck.query.filter_by(id=id).first()
+    status = truck_object.status
+    location = truck_object.location
+    path = dk.path(status,location)
+    path_json = json.dumps(path)
+
+    return generate_response(200, "path", path_json)
 
 # cadastra um truck colocando o status, localização e destino (id é autoincrementável)
 
