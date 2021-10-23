@@ -12,7 +12,7 @@ from sqlalchemy.orm import exc
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # Modificar "host", "senha" e "0000" pelas informações correspondentes no seu mysql
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost:3306/melhor_rota'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://host:senha@localhost:0000/melhor_rota'
 
 # Conecta o Flask ao db(database) através da instância SLQAlchemy
 db = SQLAlchemy(app)
