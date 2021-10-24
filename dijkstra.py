@@ -54,9 +54,7 @@ lenght = nx.get_edge_attributes(G,'length')
 
 def path(status, location):
     status_truck = status
-    
-    
-    
+
     if status_truck == True:
         descargas = ["DESC1", "DESC2", "DESC3"]
         valormenor=[]
