@@ -1,13 +1,7 @@
-#importando as bibliotecas dedicadas a TEORIA DE GRAFO.
+# Calculate shortest path lenght using dijktra algorithm
 import networkx as nx
-import matplotlib.pyplot as plt
 
-import json
-
-#Cria um novo Grafo
 G = nx.Graph()
-
-#Adiciona nós com atributo de posição na imagem.
 G.add_nodes_from([
     ("ESC1", dict(pos=(60,420))),
     ("ESC2", dict(pos=(840,245))),
@@ -30,7 +24,6 @@ G.add_nodes_from([
     ("INT13", dict(pos=(605,335))),
     ])
 
-#Adiciona arestas entre os nós com atributo da distância entre eles.
 G.add_edges_from([
     ("ESC1","INT4",{'length':200}),
     ("ESC2","INT11",{'length':160}),
@@ -56,49 +49,32 @@ G.add_edges_from([
     ("INT12","INT13",{'length':300})
     ])
 
-#Reúne os atributos da posição do nó em uma variável "pos"
 pos = nx.get_node_attributes(G,'pos')
-
-#Reúne os atributos da distância das arestas em uma variável "lenght"
 lenght = nx.get_edge_attributes(G,'length')
 
-#Imprime as distâncias das arestas no gráfico gerado "Caso utilize comando plt.show()"
-#nx.draw_networkx_edge_labels(G,pos,edge_labels=lenght)
-
-#Imprime os nós existentes no gráfico gerado "Caso utilize comando plt.show()"
-#nx.draw(G,pos, with_labels=True)
-
-#Imprime rota mais curta conforme os parâmetros do nx.shortest_path(GRAFO UTILIZADO, LOCALIZAÇÃO ATUAL, DESTINO, PARÂMETRO PARA CÁLCULO)
-#print(nx.shortest_path(G,source="ESC1",target="DESC3", weight='length'))
 def path(status, location):
     status_truck = status
+    
+    
+    
     if status_truck == True:
         descargas = ["DESC1", "DESC2", "DESC3"]
         valormenor=[]
-        for target in descargas:
-            valormenor.append(nx.shortest_path_length(G,source=location,target=target, weight='length'))    
-      
-          
+        for tgt in descargas:
+            valormenor.append(nx.shortest_path_length(G,source=location,target=tgt, weight='length'))    
+
         tmp = min(valormenor)
-        index = valormenor.index(tmp)
-
-        #print(nx.shortest_path(G,source=location,target=descargas[index], weight='length'))
-        r = nx.shortest_path(G,source=location,target=descargas[index], weight='length')
+        idx = valormenor.index(tmp)
+        r = nx.shortest_path(G,source=location,target=descargas[idx], weight='length')
         return r
-
     else:
         cargas = ["ESC1", "ESC2", "ESC3"]
         valormenor=[]
-        for target in cargas:
-            valormenor.append(nx.shortest_path_length(G,source=location,target=target, weight='length'))
-        
+        for tgt in cargas:
+            valormenor.append(nx.shortest_path_length(G,source=location,target=tgt, weight='length'))
                
         tmp = min(valormenor)
-        index = valormenor.index(tmp)
-
-        #print(nx.shortest_path(G,source="DESC3",target=cargas[index], weight='length'))
-        r = nx.shortest_path(G,source=location,target=cargas[index], weight='length')
+        idx = valormenor.index(tmp)
+        r = nx.shortest_path(G,source=location,target=cargas[idx], weight='length')
         return r
-
-#Gera mapa do Grafo
-#plt.show()
+    
