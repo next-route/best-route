@@ -7,8 +7,7 @@ import dijkstra as dk
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # Modificar "host", "senha" e "0000" pelas informações correspondentes no seu mysql
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://host:senha@localhost:0000/melhor_rota'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3306/melhor_rota'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://host:senha@localhost:0000/melhor_rota'
 db = SQLAlchemy(app)
 
 # Cria a classe Truck e declara as variáveis como colunas no banco de dados
