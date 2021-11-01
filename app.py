@@ -101,5 +101,73 @@ def delete_truck(id):
     except Exception as e:
         print('Error', e)
         return generate_response(400, "truck", {}, "Error deleting truck")
+    
+# Routes for driver truck
+class TruckDriver(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_truck = db.Column(db.Integer)
+    name = db.Column(db.String(50))
+    age = db.Column(db.Integer)
+    email = db.Column(db.String(100))
+    def to_json(self):
+        return{"Id": self.id,"Id_Truck": self.id_truck,  "Name": self.name, "Age": self.age, "Email": self.email}
+
+@app.route("/truckdriver", methods=['GET'])
+def get_trucksDriver():
+    truckDrivers_object = TruckDriver.query.all()
+    truckDrivers_json = [truckDriver.to_json() for truckDriver in truckDrivers_object]
+    return generate_response(200, "Truck Drivers", truckDrivers_json)
+
+
+
+@app.route("/truckdriver/<id>", methods=['GET'])
+def get_truckDriver(id):
+    truckDriver_object = TruckDriver.query.filter_by(id=id).first()
+    truckDriver_json = truckDriver_object.to_json()
+    return generate_response(200, "truck", truckDriver_json)
+
+@app.route("/truckdriver", methods=["POST"])
+def create_truckDriver():
+    body = request.get_json()
+    try:
+        truckdriver = TruckDriver(
+            id_truck=body["id_truck"], name=body["name"], age=body["age"], email=body["email"])
+        db.session.add(truckdriver)
+        db.session.commit()
+        return generate_response(201, "Truck Driver", truckdriver.to_json(), "Truck Driver created with success.")
+    except Exception as e:
+        print('Error', e)
+        return generate_response(400, "Truck Driver", {}, "Error creating Truck Driver")
+
+@app.route("/truckdriver/<id>", methods=["PUT"])
+def update_truckDriver(id):
+    truckDriver_object = TruckDriver.query.filter_by(id=id).first()
+    body = request.get_json()
+    try:
+        if("id_truck" in body):
+            truckDriver_object.id_truck = body["id_truck"]        
+        if("name" in body):
+            truckDriver_object.name = body["name"]
+        if("age" in body):
+            truckDriver_object.age = body["age"]
+        if("email" in body):
+            truckDriver_object.email = body["email"]
+        db.session.add(truckDriver_object)
+        db.session.commit()
+        return generate_response(200, "Truck Driver", truckDriver_object.to_json(), "Truck Driver updated with success")
+    except Exception as e:
+        print('Error', e)
+        return generate_response(400, "Truck Driver", {}, "Error updating Truck Driver")
+
+@app.route("/truckdriver/<id>", methods=["DELETE"])
+def delete_truckDriver(id):
+    truckDriver_object = TruckDriver.query.filter_by(id=id).first()
+    try:
+        db.session.delete(truckDriver_object)
+        db.session.commit()
+        return generate_response(200, "Truck Driver", truckDriver_object.to_json(), "Truck Driver deleted with success")
+    except Exception as e:
+        print('Error', e)
+        return generate_response(400, "Truck Driver", {}, "Error deleting truck Driver")
 
 app.run()
